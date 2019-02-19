@@ -1,0 +1,63 @@
+version:          "3"
+services:
+  mongo:
+    image:        mongo
+    restart:      always
+    volumes:
+      - ./mongo-db:/data/db
+    # environment:
+      # MONGO_INITDB_ROOT_USERNAME: root
+      # MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    networks:
+      - default
+
+  mongo-express:
+    image:        mongo-express
+    restart:      always
+    ports:
+      - 8081:8081
+    # environment:
+      # ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      # ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+  notifier:
+    build:        .
+    restart:      unless-stopped
+    depends_on:
+      - mongo
+      - mongo-express
+    ports:
+      - "4021:4021"
+    networks:
+      - default
+
+  testserver:
+    build:        ./testserver
+    restart:      unless-stopped
+    depends_on:
+      - notifier
+    ports:
+      - "8991:8991"
+    networks:
+      - default
+
+  apache:
+    build:        ./testweb
+    restart:      unless-stopped
+    ports:
+      - "8084:80"
+    networks:
+      - default
+
+# notes:
+# simple test
+# curl -G localhost:4021/api/status
+#
+# build/run docker
+# $ docker-compose build
+# $ docker-compose up -d
+#
+# mongo express admin
+# http://localhost:8081/

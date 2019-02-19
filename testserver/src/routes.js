@@ -1,0 +1,22 @@
+import Controller from './controller'
+const cors = require('cors')
+import EventStream from './eventStream.js'
+
+const controller = new Controller()
+
+export default (app) => {
+    app.use(cors())
+
+    app.route('/version')
+        .post(controller.version.bind(controller))
+
+    app.route('/subscribe')
+        .post(controller.subscribe.bind(controller))
+
+    app.route('/reaction')
+        .post(controller.reaction.bind(controller))
+
+    app.get('/sse', (req, res) => {
+        EventStream.add(new EventStream(req, res, 'sse'))
+    })
+}

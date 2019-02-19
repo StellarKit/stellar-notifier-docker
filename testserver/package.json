@@ -1,0 +1,32 @@
+{
+  "name": "notifier-test-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --hide-modules",
+    "start": "npm run build && node dist/bundle.js",
+    "debug": "npm run build && node --inspect=127.0.0.1:9229 dist/bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "ssestream": "^1.0.1",
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "babel-loader": "^8.0.5",
+    "@babel/preset-env": "^7.3.1",
+    "eslint": "^5.14.0",
+    "eslint-loader": "^2.1.2",
+    "terser-webpack-plugin": "^1.2.2",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
