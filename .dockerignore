@@ -1,0 +1,3 @@
+# Directory for the docker mongo instance
+# gets permission errors if Docker tries to copy it
+mongo-db/
