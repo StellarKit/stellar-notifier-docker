@@ -165,10 +165,8 @@ export default {
     },
     clickButton(id, param = null) {
       const config = {}
-      if (this.token && this.token.length > 0) {
-        config.headers = {
-          "authorization": 'Token ' + this.token
-        }
+      config.headers = {
+        "authorization": 'Token ' + '98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781'
       }
 
       switch (id) {
@@ -193,7 +191,6 @@ export default {
           break
         case 'subscribe':
           axios.post('http://localhost:8991/subscribe', {
-              'access_token': this.token,
               publicKey: this.publicKey
             })
             .then((response) => {

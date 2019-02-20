@@ -49,6 +49,8 @@ services:
     restart:                      unless-stopped
     depends_on:
       - notifier
+    environment:
+      ADMIN_AUTHENTICATION_TOKEN: "98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781"
     ports:
       - "8991:8991"
     networks:
@@ -57,8 +59,6 @@ services:
   apache:
     build:                        ./testweb
     restart:                      unless-stopped
-    environment:
-      ADMIN_AUTHENTICATION_TOKEN: "98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781"
     ports:
       - "8084:80"
     networks:

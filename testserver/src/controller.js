@@ -9,6 +9,15 @@ export default class Controller {
     })
   }
 
+  parseEnv(key, defaultValue = null) {
+    const value = process.env[key]
+    if (value) {
+      return value
+    }
+
+    return defaultValue
+  }
+
   reaction(req, res) {
     EventStream.sendEvent('sse', 'event', req.body)
     res.json({
@@ -18,7 +27,8 @@ export default class Controller {
 
   subscribe(req, res) {
     const account = req.body.publicKey
-    const token = req.body.access_token
+    // const token = req.body.access_token
+    const token = this.parseEnv('ADMIN_AUTHENTICATION_TOKEN', '')
 
     axios.post(config.notifierURL() + '/api/subscription', {
         reaction_url: config.reactionURL(),
