@@ -96,7 +96,8 @@ export default {
       consoleOutput: '',
       subscriptionArray: [],
       publicKey: 'GB572NB73ZJANPVZE2RPXR2WGFW4JXAUPIWMQSNF53ICKAQGTYFFH5LG',
-      events: []
+      events: [],
+      token: null
     }
   },
   components: {
@@ -104,6 +105,8 @@ export default {
     Console
   },
   mounted() {
+    this.token = this.parseEnv('ADMIN_AUTHENTICATION_TOKEN')
+
     var es = new EventSource('http://localhost:8991/sse')
     es.addEventListener('event', (e) => {
       this.log('Event:')
@@ -123,6 +126,14 @@ export default {
     })
   },
   methods: {
+    parseEnv(key, defaultValue = null) {
+      let value = process.env[key]
+      if (value) {
+        return value
+      }
+
+      return defaultValue
+    },
     log(data, clear = true) {
       let newOutput = ''
 
@@ -153,15 +164,16 @@ export default {
       }
     },
     clickButton(id, param = null) {
-      const token = '98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781'
+      const config = {}
+      if (this.token && this.token.length > 0) {
+        config.headers = {
+          "authorization": 'Token ' + this.token
+        }
+      }
 
       switch (id) {
         case 'delete':
-          axios.delete('http://localhost:4021/api/subscription/' + param, {
-              headers: {
-                "authorization": 'Token ' + token
-              }
-            })
+          axios.delete('http://localhost:4021/api/subscription/' + param, config)
             .then((response) => {
               this.log(response.data)
               this.clickButton('get-subs')
@@ -181,7 +193,7 @@ export default {
           break
         case 'subscribe':
           axios.post('http://localhost:8991/subscribe', {
-              'access_token': token,
+              'access_token': this.token,
               publicKey: this.publicKey
             })
             .then((response) => {
@@ -196,11 +208,7 @@ export default {
           break
 
         case 'get-subs':
-          axios.get('http://localhost:4021/api/subscription', {
-              headers: {
-                "authorization": 'Token ' + token
-              }
-            })
+          axios.get('http://localhost:4021/api/subscription', config)
             .then((response) => {
               this.log(response.data)
               this.subscriptionArray = response.data
