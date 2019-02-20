@@ -20,8 +20,6 @@ export default class Controller {
     const account = req.body.publicKey
     const token = req.body.access_token
 
-    console.log('####### token:', token)
-
     axios.post(config.notifierURL() + '/api/subscription', {
         reaction_url: config.reactionURL(),
         access_token: token,

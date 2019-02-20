@@ -1,8 +1,8 @@
-version:          "3"
+version:                          "3"
 services:
   mongo:
-    image:        mongo
-    restart:      always
+    image:                        mongo
+    restart:                      always
     volumes:
       - ./mongo-db:/data/db
     # environment:
@@ -14,8 +14,8 @@ services:
       - default
 
   mongo-express:
-    image:        mongo-express
-    restart:      always
+    image:                        mongo-express
+    restart:                      always
     ports:
       - 8081:8081
     # environment:
@@ -23,19 +23,30 @@ services:
       # ME_CONFIG_MONGODB_ADMINPASSWORD: example
 
   notifier:
-    build:        .
-    restart:      unless-stopped
+    build:                        .
+    restart:                      unless-stopped
     depends_on:
       - mongo
       - mongo-express
+    environment:
+      AUTHORIZATION:              "token"
+      STORAGE_PROVIDER:           "mongodb"
+      STORAGE_CONNECTION_STRING:  "mongodb://mongo:27017/stellar-notifier"
+      API_PORT:                   4021
+      HORIZON:                    "https://horizon-testnet.stellar.org"
+      SIGNATURE_SECRET:           "SDBT736EJIIRDC3RSN544NO6OSNMZAWAKRARLOMRP2XJAOGKTQLFFR3V"
+      MAX_ACTIVE_SUBSCRIPTIONS:   10000
+      NOTIFICATION_CONCURRENCY:   100
+      REACTION_RESPONSE_TIMEOUT:  20
+      ADMIN_AUTHENTICATION_TOKEN: "98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781"
     ports:
       - "4021:4021"
     networks:
       - default
 
   testserver:
-    build:        ./testserver
-    restart:      unless-stopped
+    build:                        ./testserver
+    restart:                      unless-stopped
     depends_on:
       - notifier
     ports:
@@ -44,8 +55,8 @@ services:
       - default
 
   apache:
-    build:        ./testweb
-    restart:      unless-stopped
+    build:                        ./testweb
+    restart:                      unless-stopped
     ports:
       - "8084:80"
     networks:
