@@ -64,20 +64,13 @@
           icon
           color='red'
           small
-          @click='deleteButton(x._id)'
+          @click='clickButton("delete", x._id)'
         >
           <v-icon>remove</v-icon>
         </v-btn>
       </div>
     </div>
   </div>
-
-  <!-- <v-btn @click='clickButton("test-sub")'>
-    Subscribe direct
-  </v-btn>
-  <v-btn @click='clickButton("test-reaction")'>
-    Reaction Direct
-  </v-btn> -->
 
   <div class='section-box'>
     <div class='sb-title'>Events</div>
@@ -137,6 +130,9 @@ export default {
     })
 
     es.addEventListener('subscribe', (e) => {
+      this.log('Subscribe:')
+      this.log(e.data, false)
+
       this.clickButton('get-subs')
     })
   },
@@ -170,18 +166,24 @@ export default {
         this.consoleOutput = newOutput
       }
     },
-    deleteButton(subscriptionID) {
-      axios.delete('http://localhost:4021/api/subscription/' + subscriptionID)
-        .then((response) => {
-          this.log(response.data)
-          this.clickButton('get-subs')
-        })
-        .catch((error) => {
-          this.log(error)
-        })
-    },
-    clickButton(id) {
+    clickButton(id, param = null) {
+      const token = '98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781'
+
       switch (id) {
+        case 'delete':
+          axios.delete('http://localhost:4021/api/subscription/' + param, {
+              headers: {
+                "authorization": 'Token ' + token
+              }
+            })
+            .then((response) => {
+              this.log(response.data)
+              this.clickButton('get-subs')
+            })
+            .catch((error) => {
+              this.log(error)
+            })
+          break
         case 'status':
           axios.get('http://localhost:4021/api/status')
             .then((response) => {
@@ -193,6 +195,7 @@ export default {
           break
         case 'subscribe':
           axios.post('http://localhost:8991/subscribe', {
+              'access_token': token,
               publicKey: this.publicKey
             })
             .then((response) => {
@@ -207,7 +210,11 @@ export default {
           break
 
         case 'get-subs':
-          axios.get('http://localhost:4021/api/subscription')
+          axios.get('http://localhost:4021/api/subscription', {
+              headers: {
+                "authorization": 'Token ' + token
+              }
+            })
             .then((response) => {
               this.log(response.data)
               this.subscriptionArray = response.data
@@ -215,32 +222,6 @@ export default {
             .catch((error) => {
               this.log(error)
             })
-          break
-        case 'test-reaction':
-          axios.post('http://localhost:8991/reaction', {
-              stuff: 'sdfsdfsdfsdfd sdfsfs d'
-            })
-            .then((response) => {
-              this.log(response)
-            })
-            .catch((error) => {
-              this.log(error)
-            })
-
-          break
-        case 'test-sub':
-          axios.post('http://localhost:4021/api/subscription', {
-              reaction_url: 'http://localhost:8991/reaction',
-              account: 'GB572NB73ZJANPVZE2RPXR2WGFW4JXAUPIWMQSNF53ICKAQGTYFFH5LG',
-              operation_types: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-            })
-            .then((response) => {
-              this.log(response)
-            })
-            .catch((error) => {
-              this.log(error)
-            })
-
           break
         default:
           this.log('switch failed')

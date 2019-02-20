@@ -8,9 +8,7 @@ $ docker-compose up -d
 $ docker-compose down
 ```
 
-If it fails to build, sudo rm -r mongo-db
-
-the mongo-db directory is docker volume for mongos data
+the ./mongo-db directory is docker volume for mongos data, delete it to reset db
 
 Open [localhost:8084](http://localhost:8084) to get started.
 
@@ -21,6 +19,4 @@ npm i
 npm run serve
 ```
 
-Open link http://localhost:8082/ to view ui
-
- 
+Open [localhost:8084](http://localhost:8082) to view ui.

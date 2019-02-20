@@ -1,5 +1,5 @@
 {
-  "authorization": "disabled",
+  "authorization": "token",
   "storageProvider": "mongodb",
   "storageConnectionString": "mongodb://mongo:27017/stellar-notifier",
   "apiPort": 4021,
