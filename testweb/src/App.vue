@@ -1,11 +1,7 @@
 <template>
-<div id="app">
-  <img
-    alt="Vue logo"
-    src="./assets/logo.png"
-  >
+<v-app>
   <Main />
-</div>
+</v-app>
 </template>
 
 <script>
@@ -24,8 +20,6 @@ export default {
 
 #app {
     font-family: 'Roboto', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
     padding-top: 60px;

@@ -68,15 +68,24 @@ export default class Controller {
   }
 
   subscribe(req, res) {
-    const account = req.body.publicKey
     // const token = req.body.access_token
+    const account = req.body.publicKey
+    const assetCode = req.body.assetCode
+    const assetIssuer = req.body.assetIssuer
+    const memo = req.body.memo
+    const operationTypes = req.body.operationTypes
 
-    axios.post(config.notifierURL() + '/api/subscription', {
-        reaction_url: config.reactionURL(),
-        access_token: this.token,
-        account: account,
-        operation_types: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-      })
+    const postParams = {
+      reaction_url: config.reactionURL(),
+      access_token: this.token,
+      account: account,
+      operation_types: operationTypes || [1],
+      asset_code: assetCode,
+      asset_issuer: assetIssuer,
+      memo: memo
+    }
+
+    axios.post(config.notifierURL() + '/api/subscription', postParams)
       .then(function(response) {
         EventStream.sendEvent('sse', 'subscribe', req.body)
       })
