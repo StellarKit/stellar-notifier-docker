@@ -7,9 +7,6 @@ const controller = new Controller()
 export default (app) => {
   app.use(cors())
 
-  app.route('/version')
-    .post(controller.version.bind(controller))
-
   app.route('/subscribe')
     .post(controller.subscribe.bind(controller))
 

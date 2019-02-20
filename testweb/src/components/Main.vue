@@ -11,13 +11,6 @@
     outline
     @click='clickButton("status")'
   >Status</v-btn>
-  <v-btn
-    small
-    outline
-    @click='clickButton("version")'
-  >
-    Version
-  </v-btn>
 
   <div class='section-box'>
     <div class='sb-title'>Subscriptions</div>
@@ -182,9 +175,12 @@ export default {
       }
     },
     clickButton(id, param = null) {
+      const backend = 'http://localhost:8991'
+      const notifier = 'http://localhost:4021'
+
       switch (id) {
         case 'delete':
-          axios.post('http://localhost:8991/delete/', {
+          axios.post(backend + '/delete/', {
               subscriptionId: param
             })
             .then((response) => {
@@ -196,7 +192,7 @@ export default {
             })
           break
         case 'status':
-          axios.get('http://localhost:4021/api/status')
+          axios.get(notifier + '/api/status')
             .then((response) => {
               this.log(response.data)
             })
@@ -205,25 +201,15 @@ export default {
             })
           break
         case 'subscribe':
-          axios.post('http://localhost:8991/subscribe', {
+          axios.post(backend + '/subscribe', {
               publicKey: this.publicKey
             })
             .then((response) => {
               this.log(response.data)
             })
           break
-        case 'version':
-          axios.post('http://localhost:8991/version')
-            .then((response) => {
-              this.log(response.data)
-            })
-            .catch((error) => {
-              this.log(error)
-            })
-          break
-
         case 'get-subs':
-          axios.post('http://localhost:8991/subscriptions')
+          axios.post(backend + '/subscriptions')
             .then((response) => {
               this.log(response.data)
             })

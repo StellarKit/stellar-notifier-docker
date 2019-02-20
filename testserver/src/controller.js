@@ -7,12 +7,6 @@ export default class Controller {
     this.token = this.parseEnv('ADMIN_AUTHENTICATION_TOKEN', '')
   }
 
-  version(req, res) {
-    res.json({
-      message: '0.0.0.1.2.32'
-    })
-  }
-
   parseEnv(key, defaultValue = null) {
     const value = process.env[key]
     if (value) {
@@ -85,8 +79,6 @@ export default class Controller {
       })
       .then(function(response) {
         EventStream.sendEvent('sse', 'subscribe', req.body)
-
-        console.log('Subscribe successful')
       })
       .catch(function(error) {
         console.log(error)
