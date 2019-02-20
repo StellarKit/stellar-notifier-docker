@@ -124,6 +124,24 @@ export default {
 
       this.clickButton('get-subs')
     })
+
+    es.addEventListener('subscriptions', (e) => {
+      const subs = JSON.parse(e.data)
+
+      this.log('Subscriptions:')
+      this.log(subs, false)
+
+      this.subscriptionArray = subs
+    })
+
+    es.addEventListener('delete', (e) => {
+      const data = JSON.parse(e.data)
+
+      this.log('Delete:')
+      this.log(data, false)
+
+      this.clickButton('get-subs')
+    })
   },
   methods: {
     parseEnv(key, defaultValue = null) {
@@ -164,14 +182,11 @@ export default {
       }
     },
     clickButton(id, param = null) {
-      const config = {}
-      config.headers = {
-        "authorization": 'Token ' + '98c12910bf35c79a800e9ea893a93b078ea92fc7a26ca76c0cd2f6003464d781'
-      }
-
       switch (id) {
         case 'delete':
-          axios.delete('http://localhost:4021/api/subscription/' + param, config)
+          axios.post('http://localhost:8991/delete/', {
+              subscriptionId: param
+            })
             .then((response) => {
               this.log(response.data)
               this.clickButton('get-subs')
@@ -202,13 +217,15 @@ export default {
             .then((response) => {
               this.log(response.data)
             })
+            .catch((error) => {
+              this.log(error)
+            })
           break
 
         case 'get-subs':
-          axios.get('http://localhost:4021/api/subscription', config)
+          axios.post('http://localhost:8991/subscriptions')
             .then((response) => {
               this.log(response.data)
-              this.subscriptionArray = response.data
             })
             .catch((error) => {
               this.log(error)

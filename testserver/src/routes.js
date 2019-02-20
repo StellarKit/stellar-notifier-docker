@@ -5,18 +5,24 @@ import EventStream from './eventStream.js'
 const controller = new Controller()
 
 export default (app) => {
-    app.use(cors())
+  app.use(cors())
 
-    app.route('/version')
-        .post(controller.version.bind(controller))
+  app.route('/version')
+    .post(controller.version.bind(controller))
 
-    app.route('/subscribe')
-        .post(controller.subscribe.bind(controller))
+  app.route('/subscribe')
+    .post(controller.subscribe.bind(controller))
 
-    app.route('/reaction')
-        .post(controller.reaction.bind(controller))
+  app.route('/subscriptions')
+    .post(controller.getSubscriptions.bind(controller))
 
-    app.get('/sse', (req, res) => {
-        EventStream.add(new EventStream(req, res, 'sse'))
-    })
+  app.route('/delete')
+    .post(controller.deleteSubscription.bind(controller))
+
+  app.route('/reaction')
+    .post(controller.reaction.bind(controller))
+
+  app.get('/sse', (req, res) => {
+    EventStream.add(new EventStream(req, res, 'sse'))
+  })
 }
