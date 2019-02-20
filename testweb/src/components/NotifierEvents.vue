@@ -43,36 +43,6 @@
 </div>
 </template>
 
-
-/*
-  Event
-
-  "id": "5c68c97254614800171f6744",
-  "type": "operation",
-  "created": "2019-02-17T02:39:46.553Z",
-  "sent": "2019-02-17T02:39:46.585Z",
-  "operation": {
-    "type_i": 1,
-    "type": "payment",
-    "destination": "GARQ24RZUEMMATDLQXVA6LEDGG7MIQ74JU5CN4DIHXXS54QUFQWIAXY5",
-    "asset": {
-      "asset_type": 0
-    },
-    "amount": "10.0000000",
-    "id": "9760244460691457",
-    "account": "GB572NB73ZJANPVZE2RPXR2WGFW4JXAUPIWMQSNF53ICKAQGTYFFH5LG"
-  },
-  "transaction": {
-    "hash": "9739d3d7ec2347b4889c22fbe54f7623dff35ad7e80a0e9db8376d90e43c6198",
-    "fee": 100,
-    "source": "GB572NB73ZJANPVZE2RPXR2WGFW4JXAUPIWMQSNF53ICKAQGTYFFH5LG",
-    "paging_token": "9760244460691456",
-    "source_account_sequence": "7979993401393232",
-    "created_at": "2019-02-17T02:39:44Z"
-  }
-}
-*/
-
 <script>
 export default {
   props: ['events'],

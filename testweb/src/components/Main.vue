@@ -88,20 +88,6 @@ import EventSource from 'eventsource'
 import NotifierEvents from './NotifierEvents.vue'
 import Console from './Console.vue'
 
-/*
-account: "GB572NB73ZJANPVZE2RPXR2WGFW4JXAUPIWMQSNF53ICKAQGTYFFH5LG"
-created: "2019-02-15T04:36:20.187Z"
-delivery_failures: 0
-operation_types: (10) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-reaction_url: "http://testserver:8991/reaction"
-sent: 8
-status: 0
-updated: "2019-02-15T05:22:56.867Z"
-user: null
-__v: 0
-_id: "5c6641c406baa7001707a81f"
-*/
-
 export default {
   name: 'HelloWorld',
   data() {
